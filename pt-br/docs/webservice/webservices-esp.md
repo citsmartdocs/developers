@@ -34,7 +34,7 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
 ### Criar um ticket (request_create)
 
 - Pré-condições: **configurar os contratos, grupos, fluxos e permissões**.
-    
+
 !!! example "Criando uma Requisição/Incidente"
     ```tab="URL"
     /services/request/create
@@ -43,29 +43,29 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     ```tab="Atributos de Entrada"
     -synchronize - indica se as informações de usuário e/ou serviço serão sincronizadas.
     -sourceRequest - informações da solicitação origem da classe CtRequest, contendo:
-     -numberOrigin - número da solicitação no sistema de origem (obrigatório. Este atributo é necessário para que o CITSmart mantenha o DE-PARA entre sua base de dados e o número original do sistema origem.
+     -numberOrigin - número da solicitação no sistema de origem (obrigatório. Este atributo é necessário para que o 4biz mantenha o DE-PARA entre sua base de dados e o número original do sistema origem.
      -type - tipo da solicitação (obrigatório). Valores possíveis: I=Incidente ou R=Requisição.
      -description - descrição do incidente ou requisição (obrigatório).
-     -userID - identificação de usuário do solicitante (obrigatório). Será incluído se não existir na base do Citsmart e o atributo synchronize for igual a true. 
-     -contact - dados do solicitante. Obrigatório quando o solicitante não existir no CITSmart e o atributo synchronize for igual a true).
+     -userID - identificação de usuário do solicitante (obrigatório). Será incluído se não existir na base do 4biz e o atributo synchronize for igual a true.
+     -contact - dados do solicitante. Obrigatório quando o solicitante não existir no 4biz e o atributo synchronize for igual a true).
      -name - nome do solicitante (obrigatório).
       -phoneNumber - telefone do solicitante (obrigatório).
       -e-mail - e-mail do solicitante (obrigatório).
-      -contractID - número do contrato no CITSmart (opcional). Se não for informado, o Citsmart vai incluir a solicitação vinculada ao contrato default parametrizado no serviço.
-      -service - dados do serviço (opcional). Se não for informado, o Citsmart vai incluir a solicitação vinculada ao serviço default parametrizado no cadastro de WebService.
+      -contractID - número do contrato no 4biz (opcional). Se não for informado, o 4biz vai incluir a solicitação vinculada ao contrato default parametrizado no serviço.
+      -service - dados do serviço (opcional). Se não for informado, o 4biz vai incluir a solicitação vinculada ao serviço default parametrizado no cadastro de WebService.
           -code - código do serviço. Opcional, se nome do serviço for informado).
-          -name - nome do serviço. Obrigatório quando o serviço não existir no CITSmart e o atributo synchronize for igual a true.
-          -category - categoria do serviço. Obrigatório quando o serviço não existir no CITSmart e o atributo synchronize for igual a true.
+          -name - nome do serviço. Obrigatório quando o serviço não existir no 4biz e o atributo synchronize for igual a true.
+          -category - categoria do serviço. Obrigatório quando o serviço não existir no 4biz e o atributo synchronize for igual a true.
              -code - código da categoria.
              -name - nome da categoria.
-      -urgency - urgência da solicitação (opcional). Valores possíveis: H=Alta, M=Média, L=Baixa. Se não for informada, a urgência será calculada partir dos parâmetros do catálogo de serviço do CITSmart.
-      -impact of request (opcional). Valores possíveis: H=Alto, M=Médio, L=Baixo. Se não for informado, o impacto será calculado a partir dos parâmetros do catálogo de serviço do CITSmart.
-      -groupId - sigla do grupo executor no CITSmart (opcional). Se não for informada, o grupo executor será obtido a partir dos parâmetros do catálogo de serviço do CITSmart. 
+      -urgency - urgência da solicitação (opcional). Valores possíveis: H=Alta, M=Média, L=Baixa. Se não for informada, a urgência será calculada partir dos parâmetros do catálogo de serviço do 4biz.
+      -impact of request (opcional). Valores possíveis: H=Alto, M=Médio, L=Baixo. Se não for informado, o impacto será calculado a partir dos parâmetros do catálogo de serviço do 4biz.
+      -groupId - sigla do grupo executor no 4biz (opcional). Se não for informada, o grupo executor será obtido a partir dos parâmetros do catálogo de serviço do 4biz.
     ```
 
     ```tab="Atributos de Saída"
     Os atributos de saída são compostos de todos os atributos de entrada da classe CtRequest, mais as seguintes informações:
-      number - número da solicitação criada no Citsmart ITSM.
+      number - número da solicitação criada no 4biz ITSM.
       startSLA - data e hora de início do SLA.
       endSLA - data e hora de término do SLA.
       status - situação da solicitação, contendo:
@@ -83,9 +83,9 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     ```
 
     ```JSON tab="Exemplo JSON"
-    {"Synchronize": true, 
-    "sourceRequest": {"numberOrigin": "9999", 
-    "type": "R", 
+    {"Synchronize": true,
+    "sourceRequest": {"numberOrigin": "9999",
+    "type": "R",
     "userID": " 61 84460708 ",
     " email ":" fulano.de.tal@centralit.com.br ",
     " department ":" Department of the So-and-so ",
@@ -94,10 +94,10 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     " service ": {" name ":" SERVICE.TEST.1 ",
     " category ": {" name ":" Category 1 "}},
     " contractID ":" 1 ",
-    " urgency " : "H", 
+    " urgency " : "H",
     "impact": "H"}
     }
-    Supondo que no atributo platform no login foi informado "usuário" e considerando o atributo synchronize igual a true, o CITSmart irá:
+    Supondo que no atributo platform no login foi informado "usuário" e considerando o atributo synchronize igual a true, o 4biz irá:
       - Verificar se existe um DE-PARA do contrato 1 para o "usuário";
       - Incluir o solicitante no cadastro de usuários, caso não exista na base;
       - Incluir o serviço no catálogo de serviços do contrato 1, caso não exista na base e registrar o DE-PARA de serviços para o cliente;
@@ -117,20 +117,20 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     request - informações da solicitação origem da classe CtRequest, contendo:
         numberOrigin - número da solicitação no sistema de origem. Obrigatório quando o atributo number não for informado.
         description - descrição do incidente ou requisição (opcional).
-        userID - identificação de usuário do solicitante (obrigatório). Será incluído se não existir na base do CITSmart e o atributo synchronize for igual a true.
-        number - número da solicitação no CITSmart (obrigatório).
-        contact - dados do solicitante. Obrigatório quando o solicitante não existir no CITSmart e o atributo synchronize for igual a true).
+        userID - identificação de usuário do solicitante (obrigatório). Será incluído se não existir na base do 4biz e o atributo synchronize for igual a true.
+        number - número da solicitação no 4biz (obrigatório).
+        contact - dados do solicitante. Obrigatório quando o solicitante não existir no 4biz e o atributo synchronize for igual a true).
             name - nome do solicitante (obrigatório).
             phoneNumber - telefone do solicitante (obrigatório).
             e-mail - e-mail do solicitante (obrigatório).
     ​    service - dados do serviço (opcional).
             code - código do serviço. Opcional, se nome do serviço for informado).
-            name - nome do serviço. Obrigatório quando o serviço não existir no CITSmart e o atributo synchronize for igual a true.
-            category - categoria do serviço. Obrigatório quando o serviço não existir no CITSmart e o atributo synchronize for igual a true.
+            name - nome do serviço. Obrigatório quando o serviço não existir no 4biz e o atributo synchronize for igual a true.
+            category - categoria do serviço. Obrigatório quando o serviço não existir no 4biz e o atributo synchronize for igual a true.
                 Code - código da categoria.
                 Name - nome da categoria.
-         Urgency - urgência da solicitação (opcional). Valores possíveis: H=Alta, M=Média, L=Baixa. Se não for informada, a urgência será calculada partir dos parâmetros do catálogo de serviço do CITSmart ITSM.
-         impacto da solicitação (opcional). Valores possíveis: H=Alto, M=Médio, L=Baixo. Se não for informado, o impacto será calculado a partir dos parâmetros do catálogo de serviço do CITSmart ITSM.
+         Urgency - urgência da solicitação (opcional). Valores possíveis: H=Alta, M=Média, L=Baixa. Se não for informada, a urgência será calculada partir dos parâmetros do catálogo de serviço do 4biz ITSM.
+         impacto da solicitação (opcional). Valores possíveis: H=Alto, M=Médio, L=Baixo. Se não for informado, o impacto será calculado a partir dos parâmetros do catálogo de serviço do 4biz ITSM.
     ```
 
     ```tab="Atributos de Saída"
@@ -148,8 +148,8 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     "cyclano.de.tal@centralit.com.br",
     "department" "Service": {"name": "SERVICO.TESTE.2",
     "category": {"name": "Category 2"}}}}
-   
-    Supondo que no atributo platform no login foi informado "usuário" e considerando o atributo synchronize igual a true, o CITSmart irá:
+
+    Supondo que no atributo platform no login foi informado "usuário" e considerando o atributo synchronize igual a true, o 4biz irá:
         Incluir o solicitante no cadastro de usuários, caso não exista na base;
         Incluir o serviço no catálogo de serviços do contrato 1, caso não exista na base e registrar o DE-PARA de serviços para o cliente;
         Alterar o solicitante e serviço da solicitação com número de origem 9999.
@@ -164,7 +164,7 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     ```
 
     ```tab="Atributos de entrada"
-    ​​number - número da solicitação no CITSmart ITSM. Obrigatório quando o atributo numberOrigin não for informado.
+    ​​number - número da solicitação no 4biz ITSM. Obrigatório quando o atributo numberOrigin não for informado.
     numberOrigin - número da solicitação no sistema de origem. Obrigatório quando o atributo number não for informado.
     status - situação da solicitação, contendo:
         code - código da situação (obrigatório). Valores possíveis: EmAndamento, Suspensa, Cancelada, Resolvida, Reaberta, Fechada.
@@ -196,20 +196,20 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     service - dados do serviço (opcional).
        code - código do serviço.
        name - nome do serviço.
-    contractID - número do contrato no CITSmart (opcional).
+    contractID - número do contrato no 4biz (opcional).
     status - situação da solicitação (opcional), contendo:
        code - código da situação. Valores possíveis: Em Andamento, Suspensa, Cancelada, Resolvida, Reaberta, Fechada, Reclassificada.
     ```
 
     ```tab="Atributos de Saída"
     Coleção de objetos da classe CtRequest contendo:
-       number - número da solicitação no Citsmart ITSM.
+       number - número da solicitação no 4biz ITSM.
        numberOrigin - número da solicitação no sistema de origem.
        type - Tipo da solicitação. Valores possíveis: I=Incidente ou R=Requisição
        description - descrição do incidente ou requisição.
        userID - identificação de usuário do solicitante.
-       urgency - urgência da solicitação (opcional). Valores possíveis: H=Alta, M=Média, L=Baixa. Se não for informada, a urgência será calculada partir dos parâmetros do catálogo de serviço do CITSmart. 
-       groupId - sigla do grupo executor no CITSmart (opcional). Se não for informada, o grupo executor será obtido a partir dos parâmetros do catálogo de serviço do CITSmart.
+       urgency - urgência da solicitação (opcional). Valores possíveis: H=Alta, M=Média, L=Baixa. Se não for informada, a urgência será calculada partir dos parâmetros do catálogo de serviço do 4biz.
+       groupId - sigla do grupo executor no 4biz (opcional). Se não for informada, o grupo executor será obtido a partir dos parâmetros do catálogo de serviço do 4biz.
        startDateTime - data e hora de início da solicitação.
        startSLA - data e hora de início do SLA.
        endSLA - data e hora de término do SLA.
@@ -231,13 +231,13 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     ```
 
     ```tab="Atributos de entrada"
-    number - número da solicitação no Citsmart ITSM. Obrigatório quando o atributo numberOrigin não for informado.
+    number - número da solicitação no 4biz ITSM. Obrigatório quando o atributo numberOrigin não for informado.
     numberOrigin - número da solicitação no sistema de origem. Obrigatório quando o atributo number não for informado.
     ```
 
     ```tab="Atributos de saída"
     Atributos de Saída são compostos de todos os Atributos de Entrada da classe CtRequest mais as seguintes informações:
-      number - número da solicitação criada no CITSmart.
+      number - número da solicitação criada no 4biz.
       startSLA - hora e data inicial do SLA.
       endSLA - hora e data final do SLA.
       status - status da solicitação, contendo:
@@ -260,14 +260,14 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
 
 
 ### Incluir Ocorrência no Ticket (createOccurrence)
-    
+
 !!! example "Inclui uma ocorrência em uma solicitação"
     ```tab="URL"
     /services/request/createOccurrence
     ```
-    
+
     ```tab="Atributos de entrada"
-    requestNumber - número da solicitação no CITSmart. Obrigatório quando o atributo requestNumberOrigin não for informado.
+    requestNumber - número da solicitação no 4biz. Obrigatório quando o atributo requestNumberOrigin não for informado.
     requestNumberOrigin - número da solicitação no sistema de origem. Obrigatório quando o atributo requestNumber não for informado.
     ocurrence - objeto da classe CtOccurrence, contendo:
         numberOrigin - número da ocorrência no sistema de origem (opcional).
@@ -277,10 +277,10 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
         category - categoria da ocorrência. Valores possíveis: Acompanhamento, Atualização, Diagnostico, Investigação, Memorando, Informação, Retorno, Sintoma, Contorno, Agendamento.
         reason - motivo da ocorrência.
     ```
-    
+
     ```tab="Atributos de saída"
     Objeto da classe CtOcurrence contendo:
-        number - número da ocorrência no CITSmart.
+        number - número da ocorrência no 4biz.
         numberOrigin - número da ocorrência no sistema de origem.
         description - descrição da ocorrência.
         date - data de registro da ocorrência.
@@ -300,7 +300,7 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
               name - nome da situação.
           userId - login do usuário responsável pela execução da tarefa.
     ```
-    
+
     ```JSON tab="Exemplo JSON"
         {"requestNumberOrigin": "9999",
         "occurrence": {"description": "Occurrence test","category": {"code": "Workaround solution"},
@@ -316,13 +316,13 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     ```
 
     ```tab="Atributos de entrada"
-    requestNumber - número da solicitação no CITSmart. Obrigatório quando o atributo requestNumberOrigin não for informado.
+    requestNumber - número da solicitação no 4biz. Obrigatório quando o atributo requestNumberOrigin não for informado.
     requestNumberOrigin - número da solicitação no sistema de origem. Obrigatório quando o atributo requestNumber não for informado.
     ```
 
     ```tab="Atributos de saída"
     Objeto da classe CtOcurrence containing:
-        number - número do evento na CITSmart.
+        number - número do evento na 4biz.
         numberOrigin - número da ocorrência no sistema de origem.
         description - descrição da ocorrência.
         date - data do registro da ocorrência.
@@ -355,18 +355,63 @@ Esse webservice deve ser utilizado para listar os usuários que podem ser solici
 
 !!! example "Listar requisições/incidentes para atendimento"
     ```tab="URL"
-    /services/request/createOccurrence
+    /services/request/createOccurrence 
+    /webmvc/servicerequestincident/searchTickets
     ```
     
     ```tab="Possíveis códigos de retorno"
     200 – Requisição efetuada com sucesso
     401 - Invalid authentication token or user without access to the resource
+    406 - Not Acceptable - Business Exception
     ```
     
     ```tab="Atributos de entrada"
     sessionID: Atributo obrigatório que recebe o código da sessão;
     name: Atributo não obrigatório que recebe o nome do solicitante, parte do nome;
 	    Se o usuário passar a informação %%%, o sistema retornará todos os solicitantes do sistema.
+        •	userId: Atributo obrigatório que recebe o código do usuário logado;
+        •	selectedPage: Atributo obrigatório que passa a página a ser traga;
+        •	Passar o sessionID no Header;
+        •	Filtros permitidos nesse webservice, os atributos descritos abaixo não são obrigatórios:
+            o	attendantId: Atributo que permite filtrar pelo nome do atendente;
+            o	groupId: Atributo que permite filtrar pelo nome do grupo;
+            o	orderBy: Atributo que permite ordenar os registros pelos seguintes parâmetros:
+                	TICKET_ID: Número do ticket, 
+                	CREATE_DATE: Data de criação, 
+                	LIMIT_DATE: Data limite para atendimento do ticket,
+            o	orderDirection: Atributo que permite direcionar os tickets de duas formas:
+                	ASC: Direciona pelo número do ticket de forma crescente, 
+                	DESC: Direciona pelo número do ticket de forma decrescente
+            o	requesterId: Atributo que permite filtrar pelo nome do solicitante;
+            o	status: Atributo que permite filtrar pelas situações dos tickets:
+                	IN_PROGRESS,
+                	SUSPENDED, 
+                	CANCELED, 
+                	SOLVED, 
+                	CLOSED 
+            o	ticketId: Atributo que permite filtrar pelo número do ticket;
+            o	unitId: Atributo que permite filtrar pelo nome da unidade;
+    Exemplo de entrada no webservice
+    {
+        "userId": 4,
+        "selectedPage": 1
+    }
+
+    Exemplo de entrada no webservice com os atributos não obrigatórios
+    {
+        "userId": 4,
+        "selectedPage": 1,
+        "attendantId": 0,
+        "groupId": 0,
+        "orderBy": "TICKET_ID",
+        "orderDirection": "ASC",
+        "requesterId": 0,
+        "selectedPage": 0,
+        "status": "IN_PROGRESS",
+        "ticketId": 0,
+        "unitId": 0
+    }
+
 
     ```tab="Exemplo JSON"
     { 
@@ -401,6 +446,33 @@ Esse webservice deve ser utilizado para listar os usuários que podem ser solici
     	Id: Código da localidade;
     	Name: Nome da localidade;
     “phone” – Resposta que retorna o número do telefone do solicitante;
+    •	"id" – Resposta que retorna o número do ticket;
+    •	“tipo” - Resposta que retorna o tipo de demanda, ou seja, se é uma Requisição (R), Incidente (I) ou Procedimento(P);
+    •	"nomePrioridade" – Resposta que retorna o nome da Prioridade dada ao ticket;
+    •	“solicitacao” – Resposta que retorna a descrição da atividade solicitada;
+    •	“tarefa” – Resposta que retorna a tarefa do fluxo que se encontra o ticket;
+    •	“status” – Resposta que retorna a situação da tarefa do ticket listado;
+    •	“dataLimite” – Resposta que retorna a data e a hora de encerramento da solicitação de serviço conforme o SLA e calendário vinculado a atividadexcontrato
+    •	“statusFluxoNome” - Resposta que retorna a situação do SLA, podendo ser: Normal, A Vencer, Vencido, Suspenso.
+    Exemplo de resposta válida do webservice
+    "code": "200",
+    "message": "Request processed successfully",
+    "payload":{
+    "initialNumber": 1,
+    "lastPage": 1.0,
+    "finalNumber": 20,
+    "totalRequests": 168,
+    "result":
+    [
+    "id": 1251,
+    "tipo": "Incidente",
+    "nomePrioridade": "Medium",
+    "solicitacao": "Serviço de Incidente",
+    "tarefa": "Atender solicitacao",
+    "status": "NORMAL",
+    "dataLimite": "2020-06-09 09:18:00 AM UTC"
+    ]
+    }
     ```
 
     ```tab="Exemplo JSON"
@@ -428,6 +500,7 @@ Esse webservice deve ser utilizado para listar os usuários que podem ser solici
 	    ]
 	}
     ```
+
 ### Gravar ticket em atendimento
 
 Esse webservice deve ser utilizado para retornar os tickets para atendimento dos analistas.  
@@ -540,6 +613,8 @@ Esse webservice deve ser utilizado para retornar os tickets para atendimento dos
 	}  
     }
     ``` 
+    
+
 
 
 <hr>
