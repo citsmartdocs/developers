@@ -503,9 +503,11 @@ Esse webservice deve ser utilizado para listar os usuários que podem ser solici
 
 ### Gravar ticket em atendimento
 
-Esse webservice deve ser utilizado para retornar os tickets para atendimento dos analistas.  
+Esse webservice deve ser utilizado para retornar os tickets para atendimento dos analistas. 
+
 - Pré-condições: Possuir acesso ao sistema e permissão de execução no fluxo de trabalho.
 
+!!! example "Gravar ticket em atendiment"
     ```tab="URL"
     Para apenas gravar o ticket: webmvc/servicerequestincident/save  
     Para gravar e avançar o ticket: webmvc/servicerequestincident/next
