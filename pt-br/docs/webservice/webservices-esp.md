@@ -616,6 +616,8 @@ Esse webservice deve ser utilizado para retornar os tickets para atendimento dos
 
 ### Receber Unidades
 
+Esse webservice deve ser utilizado para retornar as unidades ativas existentes no sistema para seleção na criação de um ticket.
+
 - Pré-condições:
 
 Esse webservice sofre alteração de resultados caso o parâmetro 61 - Vincula contratos a unidade (Ex.: S ou N) esteja ativo.
