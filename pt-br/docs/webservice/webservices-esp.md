@@ -669,6 +669,59 @@ Para ler essa documentação, é preciso estar logado na aplicação, e essa apl
         ]
     }
     ```
+
+### Receber justificativa de suspensão
+
+Esse webservice deve ser utilizado para retornar as justificativas de suspensão cadastradas e ativas no sistema.
+
+- Pré-condições: O usuário que é passado no webservice deve possuir permissão de suspender no fluxo de trabalho;
+
+A documentação de desenvolvimento está no Swagger
+
+Exemplo: https://presentation02.citsmartcloud.com/4biz/webmvc/swagger-ui.html#/
+    
+Para ler essa documentação, o usuário precisa estar logado na aplicação, e essa aplicação precisa estar na versão que possui esses webservices.
+
+!!! example "Receber justificativa de suspensão"
+    ```tab="URL"
+    webmvc/v1/ticket/justification
+    Método: GET
+    Possíveis Códigos de retorno
+    200 – Requisição efetuada com sucesso
+    401 - Invalid authentication token or user without access to the resource
+    404 – Justificativa não encontrada
+    ```
+
+    ```tab="Atributos de Entrada"
+    •	authentication-token: Atributo obrigatório que recebe o token de autenticação
+        o	Passar o authentication-token no Header;
+    •	type: Atributo obrigatório que recebe uma das siglas abaixo:
+        o	Passar o type como parâmetro;
+        o	Type (S = Suspension, A = Approval)
+            Available values : S, A
+            Default value : S
+    Exemplo de entrada no webservice
+    {
+        Não se aplica uma vez que a URL passará todos os atributos necessários
+    }
+    ```
+
+    ```tab="Atributos de Saída"
+    •	id:  Retorna o código da Justificativa de suspensão;
+    •	description: Retorna a descrição da Justificativa de suspensão
+    Exemplo de saída no webservice
+    {
+        "status": "SUCCESS",
+        "code": "200",
+        "message": "Request processed successfully",
+        "payload": [
+            {
+                "id": 1,
+                "description": "Default"
+            }
+        ]
+    }
+    ```
     
 <hr>
 <font  Size=2><b>Atualização:</b>09/10/2020</font>
