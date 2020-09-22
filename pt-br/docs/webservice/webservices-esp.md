@@ -620,11 +620,10 @@ Esse webservice deve ser utilizado para retornar os tickets para atendimento dos
 
 Esse webservice deve ser utilizado para retornar as unidades ativas existentes no sistema para seleção na criação de um ticket.
 
-- Pré-condições:
-
-Esse webservice sofre alteração de resultados caso o parâmetro 61 - Vincula contratos a unidade (Ex.: S ou N) esteja ativo.
+- Pré-condições: Esse webservice sofre alteração de resultados caso o parâmetro 61 - Vincula contratos a unidade (Ex.: S ou N) esteja ativo.
 
 A documentação de desenvolvimento está no Swagger
+
 Exemplo: https://presentation02.citsmartcloud.com/4biz/webmvc/swagger-ui.html#/
     
 Para ler essa documentação, é preciso estar logado na aplicação, e essa aplicação precisa estar na versão que possui esses webservices.
@@ -670,9 +669,6 @@ Para ler essa documentação, é preciso estar logado na aplicação, e essa apl
         ]
     }
     ```
-
-
-
-
+    
 <hr>
 <font  Size=2><b>Atualização:</b>09/10/2020</font>
