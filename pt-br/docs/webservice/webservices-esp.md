@@ -13,20 +13,15 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
 
 
 1.	Antes de se utilizar qualquer operação REST do CITSmart, é necessário que o usuário esteja autenticado.
-2.	A autenticação é feita através da operação REST login na URL **/services/login**, que recebe um objeto **CtLogin** contendo os atributos **userName**, **password** e **platform**.
-3.	O atributo platform deve conter a identificação do site que está solicitando o serviço.
-4.	A operação login retorna um valor alfanumérico no atributo **SessionID**. Este mesmo **SessionID** deve ser utilizado nas outras chamadas REST. O objeto retornado contém o código e descrição do erro em caso de problemas na execução da operação login.
-5.	O usuário autenticado compõe a chave para sincronização dos dados, quando o atributo **synchronize** tiver o valor **true**.
-6.	Os serviços de inclusão e atualização de solicitações contam com o atributo **synchronize**. Quando este atributo for **true**, o cadastro de usuário e o catálogo serviços serão automaticamente criados ou atualizados no CITSmart a partir das informações enviadas na solicitação do Web Service.  
+2.	A autenticação é feita através da operação REST login na URL **/services/login**, que recebe um objeto **CtLogin** contendo os atributos **userName**, **password** e **mediatype**.
+3.	A operação login retorna um valor alfanumérico no atributo SessionID. Este mesmo **SessionID** deve ser utilizado nas outras chamadas REST. O objeto retornado contém o código e descrição do erro em caso de problemas na execução da operação login.
+4.	O usuário autenticado compõe a chave para sincronização dos dados, quando o atributo **synchronize** tiver o valor **true**.  
+5.	O serviço de atualização de solicitações contam com o atributo **synchronize**. Quando este atributo for **true**, o cadastro de usuário e o catálogo serviços serão automaticamente atualizados no CITSmart a partir das informações enviadas na solicitação do WebService. 
+  
 
 !!! Abstract "REGRA"
 
-    Todos os serviços REST criados no CITSmart recebem um objeto de entrada e
-    retornam um objeto. Em caso de erro, o objeto de retorno contém o código e a
-    descrição do erro. Quando não houver erro, além dos atributos definidos para
-    cada serviço, o objeto de retorno contém a data e hora de execução e o id da
-    operação. O CITSmart garante que toda solicitação é registrada na sua base de
-    dados e um ID da operação é retornado para o solicitante, mesmo em caso de erro.
+    todos os serviços REST criados no CITSmart recebem um objeto de entrada e retornam um objeto. Em caso de erro, o objeto de retorno contém o código e a descrição do erro. Quando não houver erro, além dos atributos definidos para cada serviço, o objeto de retorno contém a data e hora de execução e o id da operação. O CITSmart garante que toda solicitação é registrada na sua base de dados e um ID da operação é retornado para o solicitante, mesmo em caso de erro.
   
 
 ## Ações
@@ -163,12 +158,24 @@ Os Web Services foram criados no CITSmart para inclusão, atualização, consult
     /services/request/updateStatus
     ```
 
+    ```tab="Pre-Requisitos"
+    Ir na tela de Operação WebService e configurar com o grupo autorizado a executar esse webservice request_updateStatus
+    Ir na tela de Operação WebService e configurar o parâmetro ID justificativa padrão para alteração da situação, com o código de um motivo de suspensão de atividade. O usuário poderá realizar o comando: 
+    select * from justificativasolicitacao
+    Para conseguir o código a ser informado no parâmetro descrito acima.
+    ```
+
     ```tab="Atributos de entrada"
-    ​​number - número da solicitação no 4biz ITSM. Obrigatório quando o atributo numberOrigin não for informado.
-    numberOrigin - número da solicitação no sistema de origem. Obrigatório quando o atributo number não for informado.
-    status - situação da solicitação, contendo:
-        code - código da situação (obrigatório). Valores possíveis: EmAndamento, Suspensa, Cancelada, Resolvida, Reaberta, Fechada.
-        details - complemento da justificativa para alteração da situação (opcional).
+    ​​number - Informar o número de criação do ticket;
+    Synchronize - true ou false, utilize true para informar que deseja sincronizar o ticket;
+    Status - code – Informar a situação do ticket, podendo ser:
+         - IN_PROGESS
+        - SUSPENDED
+        - CANCELED
+        - SOLVED
+        - REOPENED
+        - CLOSED
+    Details - Informar detalhes do porque o usuário está fazendo um update no ticket; 
     ```
 
     ```tab="Atributos de saída"
@@ -1046,3 +1053,143 @@ Observação: Esse documento contém todos os webservices necessários para anex
     }
     ```
 
+### Filtrar conhecimento
+
+!!! example "Deleta anexos dos tickets"
+    ```tab="URL"
+    /webmvc/v1/knowledge-base/indexed
+    Método tipo: Get
+    Documentação técnica: Link do swagger: /webmvc/swagger-ui.html#/Knowledge%20Base/searchUsingGET
+    O webservice apresentado permite filtrar os conhecimentos pelo título.
+    Possíveis Códigos de retorno:
+    1.	200 Success
+    2.	401 Invalid authentication
+    3.	404 Ticket not found
+    ```
+
+    ```tab="Atributos de Entrada"
+    •	authentication-token: Atributo obrigatório que recebe o código de autenticação do login
+    •	currentPage: Atributo do tipo integer com valor default 1
+    •	limit: Atributo do tipo integer com valor defaul 20 
+    •	searchKeyword: Atributo do tipo string
+    ```
+
+    ```tab="Atributos de Saída"
+    •	" status " – Resposta que retorna o status do serviço ;
+    •	“code” - Resposta com o código de retorno;
+    •	" message " – Resposta que apresenta a mensagem do código de retorno;
+    •	“payload” – Resposta que apresenta: idBaseConhecimento e título;
+
+    Exemplo de resposta válida do webservice
+    {
+    "status": "SUCCESS",
+    "code": "200",
+    "message": "Request processed successfully",
+    "payload": [
+        {
+            "idBaseConhecimento": 555,
+            "titulo": "Applications instalation"
+        }
+    ```
+
+### Detalhar Conhecimento, Listar anexos e Visualizar a quantidade de like e dislike do conhecimento
+
+!!! example "Deleta anexos dos tickets"
+    ```tab="URL"
+    /webmvc/v1/knowledgebase/{knowledgeBaseId}
+    Método tipo: Get
+    Documentação técnica: /webmvc/swagger-ui.html#/Knowledge%20Base/findUsingGET
+    O webservice apresentado permite visualizar um conhecimento, listar os seus anexos e ver a quantidade de like e dislikes do seu conteúdo.
+    Possíveis Códigos de retorno:
+    1.	200 Success
+    2.	401 Invalid authentication
+    3.	404 Ticket not found
+    ```
+
+    ```tab="Atributos de Entrada"
+    •	authentication-token: Atributo obrigatório que recebe o código de autenticação do login
+    •	knowledgeBaseId: Atributo que recebe o número do ticket
+    Exemplo de entrada no webservice
+    {
+	" authentication-token: ": " eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2MDgxNDk2MjcsIm5hbWUiOiJDbGllbnRPbmUiLCJjb250cm9sIjoiN2IyMjY5NzAyMjNhMjIzMTM4MzkyZTM2MmUzMzM1MmUzMjMwMzIyMjJjMjI2ODZmNzM3NDIyM2EyMjMxMzgzOTJlMzYyZTMzMzUyZTMyMzAzMjIyN2QiLCJpc3N1ZWRBdCI6MTYwODE0NjAyNzIzNCwibG9jYWxlIjoiZW4iLCJjbGllbnRfaWQiOiJ1bmtub3duIiwidGltZW91dCI6MzYwMCwidXNlcm5hbWUiOiJjbGllbnQwMSJ9.zEfN_lP00Hgtp5ojWtMuIiqinxxnKs9VZY28tEPQskGUbYdIb9GXH33sjPYxrD-v9BRocDuDZoi7M6uMleGefQ",
+    }
+    ```
+
+    ```tab="Atributos de Saída"
+    •	" status " – Resposta que retorna o status do serviço ;
+    •	“code” - Resposta com o código de retorno;
+    •	" message " – Resposta que apresenta a mensagem do código de retorno;
+    “payload” – Resposta que apresenta: título, contente, version, totalLike, totalUnlike, liked, unliked, userCreated, lastPublicationDate, userUpdated, attachments
+    Exemplo de resposta válida do webservice
+    {
+        "status": "SUCCESS",
+        "code": "200",
+        "message": "Request processed successfully",
+        "payload": {
+            "title": "Applications instalation",
+            "content": "<p>Applications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalation</p>\n",
+            "version": "1.0",
+            "totalLike": 1,
+            "totalUnlike": 0,
+            "liked": false,
+            "unliked": false,
+            "userCreated": "Consultant",
+            "lastPublicationDate": "2020-04-01 06:22:14 AM BRT",
+            "userUpdated": "Vinny Gravito",
+            "attachments": [
+                {
+                    "id": 606,
+                    "name": "App instalation.pdf",
+                    "extension": "pdf"
+                }
+            ]
+        }
+    }
+    
+
+### Download de anexos
+
+    !!! example "Deleta anexos dos tickets"
+        ```tab="URL"
+        /webmvc/v1/knowledgebase/{knowledgeBaseId}/attachments/{documentId}
+        Método tipo: Get
+        Documentação técnica: Link do swagger: /webmvc/swagger-ui.html#/Knowledge%20Base/downloadAttachmentsUsingGET
+        O webservice apresentado permite fazer download de anexos listados em um conhecimento.
+        Possíveis Códigos de retorno:
+	        200 Success
+	        401 Invalid authentication
+	        404 Ticket not found
+        ```
+
+        ```tab="Atributos de Entrada"
+        •	authentication-token: Atributo obrigatório que recebe o código de autenticação do login
+        •	knowledgeBaseId: Atributo que recebe o número do ticket
+        Exemplo de entrada no webservice
+            {
+	        " authentication-token: ": " eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2MDgxNDk2MjcsIm5hbWUiOiJDbGllbnRPbmUiLCJjb250cm9sIjoiN2IyMjY5NzAyMjNhMjIzMTM4MzkyZTM2MmUzMzM1MmUzMjMwMzIyMjJjMjI2ODZmNzM3NDIyM2EyMjMxMzgzOTJlMzYyZTMzMzUyZTMyMzAzMjIyN2QiLCJpc3N1ZWRBdCI6MTYwODE0NjAyNzIzNCwibG9jYWxlIjoiZW4iLCJjbGllbnRfaWQiOiJ1bmtub3duIiwidGltZW91dCI6MzYwMCwidXNlcm5hbWUiOiJjbGllbnQwMSJ9.zEfN_lP00Hgtp5ojWtMuIiqinxxnKs9VZY28tEPQskGUbYdIb9GXH33sjPYxrD-v9BRocDuDZoi7M6uMleGefQ",
+            }
+        ```
+
+### Enviar like e Dislike
+
+    !!! example "Deleta anexos dos tickets"
+        ```tab="URL"
+        /webmvc/v1/knowledgebase/{knowledgeBaseId}/vote/{type}
+        Método tipo: Post
+        Documentação técnica: Link do swagger: /webmvc/swagger-ui.html#/Knowledge Base/voteUsingPOST
+        O webservice apresentado permite dar like e dislike em um conteúdo do portal do conhecimento
+        Possíveis Códigos de retorno:
+	        200 Success
+	        401 Invalid authentication
+	        404 Ticket not found
+        ```
+
+        ```tab="Atributos de Entrada"
+        •	authentication-token: Atributo obrigatório que recebe o código de autenticação do login
+        •	knowledgeBaseId: Atributo que recebe o número do ticket
+        •	type: Atributo que recebe o tipo de voto
+        Exemplo de entrada no webservice
+            {
+	        " authentication-token: ": " eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2MDgxNDk2MjcsIm5hbWUiOiJDbGllbnRPbmUiLCJjb250cm9sIjoiN2IyMjY5NzAyMjNhMjIzMTM4MzkyZTM2MmUzMzM1MmUzMjMwMzIyMjJjMjI2ODZmNzM3NDIyM2EyMjMxMzgzOTJlMzYyZTMzMzUyZTMyMzAzMjIyN2QiLCJpc3N1ZWRBdCI6MTYwODE0NjAyNzIzNCwibG9jYWxlIjoiZW4iLCJjbGllbnRfaWQiOiJ1bmtub3duIiwidGltZW91dCI6MzYwMCwidXNlcm5hbWUiOiJjbGllbnQwMSJ9.zEfN_lP00Hgtp5ojWtMuIiqinxxnKs9VZY28tEPQskGUbYdIb9GXH33sjPYxrD-v9BRocDuDZoi7M6uMleGefQ",
+            }
+        ```
