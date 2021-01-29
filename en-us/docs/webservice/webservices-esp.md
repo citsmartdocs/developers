@@ -13,10 +13,9 @@ Web Services have been created in CTSmart for inclusion, updating, consultation 
 
 1.  Before any CITSmart REST operation is used, the user must be authenticated.
 2.  Authentication is done through the REST login operation in the URL **/services/login**, which receives a **CtLogin** object containing the **userName**, **password**, and **platform** attributes.
-3.  The platform attribute must contain the ID of the site that is requesting the service.
-4.  The login operation returns an alphanumeric value in the **SessionID** attribute. This same **SessionID** must be used in the other REST calls. The returned object contains the code and description of the error in case of problems in executing the login operation.
-5.  The authenticated user composes the key for data synchronization, when the **synchronize** attribute is set to **true**.
-6.  Request inclusion and update services rely on the **synchronize** attribute. When this attribute is **true**, the user registration and catalog services are automatically created or updated in CITSmart from the information sent in the Web Service request.
+3.  The login operation returns an alphanumeric value in the **SessionID** attribute. This same **SessionID** must be used in the other REST calls. The returned object contains the code and description of the error in case of problems in executing the login operation.
+4.  The authenticated user composes the key for data synchronization, when the **synchronize** attribute is set to **true**.
+5.  Request inclusion and update services rely on the **synchronize** attribute. When this attribute is **true**, the user registration and catalog services are automatically created or updated in CITSmart from the information sent in the Web Service request.
 
 !!! Abstract "RULE"
 
@@ -33,6 +32,8 @@ Web Services have been created in CTSmart for inclusion, updating, consultation 
 
 
 ### Create a Ticket
+
+- Pre-conditions: **configure the contracts, groups, flows and permissions**.
 
 !!! example "Creating a Request /Incident"
     ```tab="URL"
@@ -103,7 +104,7 @@ Web Services have been created in CTSmart for inclusion, updating, consultation 
       - Include request with source number 9999;
       - Register the DEPUT from the 9999 source request to the client.
     ```
-### Change ticket information
+### Change ticket information (create)
 
 !!! example "Changing Information from Requests/Incidents"
     ```tab="URL"
@@ -153,7 +154,7 @@ Web Services have been created in CTSmart for inclusion, updating, consultation 
         Change the requestor and service from the request with source number 9999.
     ```
 
-### Change ticket status
+### Change ticket status (updateStatus)
 
 
 !!! example "Changing the Status of an Incidents/Requests"
@@ -161,25 +162,37 @@ Web Services have been created in CTSmart for inclusion, updating, consultation 
     /services/request/updateStatus
     ```
 
-    ```tab="Input Attributes"
-    ​​number - request number in CITSmart. Required when the numberOrigin attribute is not informed.
-    numberOrigin - the request number on the source system. Required when the number attribute is not entered.
-    status - status of the request, containing:
-        code - situation code (required). Possible values: On End, Suspended, Canceled, Resolved, Reopened, Closed.
-        details - complement of justification to change the situation (optional).
+    ```tab="Pre-Requisites"
+    Go to the WebService Operation screen and configure with the group authorized to execute this web service request_updateStatus
+    Go to the WebService Operation screen and set the default justification ID parameter to change the situation, with the code for an activity suspension reason. The user can perform the command: 
+    select * from justificativasolicitacao
+    To get the code to be informed in the parameter described above.
     ```
 
-    ```tab="Output Attributes"
-        Same as the Input
+    ```tab="Input attributes"
+    ​​number - Inform the ticket creation number;
+    Synchronize - true or false, use true to inform that you want to synchronize the ticket;
+    Status - code – Inform ticket status, they can be:
+         - IN_PROGESS
+        - SUSPENDED
+        - CANCELED
+        - SOLVED
+        - REOPENED
+        - CLOSED
+    Details - Inform details of why the user is updating the ticket; 
     ```
 
-    ```JSON tab="JSON Example"
+    ```tab="Output attributes"
+        Same as in the input attributes.
+    ```
+
+    ```JSON tab="JSON example"
        {"numberOrigin": "9999",
        "status": {"code": "Suspended",
        "details": "Integration Testing"}}
     ```
 
-###INQUIRE THE APPLICANT's INCIDENTS AND REQUESTS
+### Consult Requester's tickets (getByUser)
 
 !!! example "Inquire the applicant's Incidents and Requests"
     ```tab="URL"
