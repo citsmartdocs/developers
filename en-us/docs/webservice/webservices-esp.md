@@ -1034,11 +1034,146 @@ Note: This document contains all the necessary webservices for an attachment tha
     ```
     
     
+### Filtrer knowledge
+
+!!! example "Delete ticket attachments"
+    ```tab="URL"
+    /webmvc/v1/knowledge-base/indexed
+    Type of method: Get
+    Technical documentation: Link of swagger: /webmvc/swagger-ui.html#/Knowledge%20Base/searchUsingGET
+    The presented webservice allows you to filter knowledge by title.
+    Possible return codes:
+    1.	200 Success
+    2.	401 Invalid authentication
+    3.	404 Ticket not found
+    ```
+
+    ```tab="Input attribute"
+    •	authentication-token: Mandatory attribute that receives the login authentication code
+    •	currentPage: Attribute of type integer with default value 1
+    •	limit: Attribute of type integer with default value 20 
+    •	searchKeyword: Attribute of type string
+    ```
+
+    ```tab="Output attribute"
+    •	" status " – Response that returns service status;
+    •	“code” - Response with the return code;
+    •	" message " – Response that displays the return code message;
+    •	“payload” – Answer that presents: idBaseKnowledge and title;
+
+    Example of a valid webservice response
+    {
+    "status": "SUCCESS",
+    "code": "200",
+    "message": "Request processed successfully",
+    "payload": [
+        {
+            "idBaseConhecimento": 555,
+            "titulo": "Applications instalation"
+        }
+    ```
+
+### Detail Knowledge, List Attachments and View the amount of like and dislike in the knowledge
+
+!!! example "Delet ticket attachments"
+    ```tab="URL"
+    /webmvc/v1/knowledgebase/{knowledgeBaseId}
+    Type of method: Get
+    Technical documentation: /webmvc/swagger-ui.html#/Knowledge%20Base/findUsingGET
+    The webservice presented allows you to view a knowledge, list its attachments and see the amount of likes and dislikes on its content.
+    Possible return codes:
+    1.	200 Success
+    2.	401 Invalid authentication
+    3.	404 Ticket not found
+    ```
+
+    ```tab="Input attributes"
+    •	authentication-token: Mandatory attribute that receives the login authentication code
+    •	knowledgeBaseId: Attribute that receives the ticket number
+    Example of webservice input
+    {
+	" authentication-token: ": " eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2MDgxNDk2MjcsIm5hbWUiOiJDbGllbnRPbmUiLCJjb250cm9sIjoiN2IyMjY5NzAyMjNhMjIzMTM4MzkyZTM2MmUzMzM1MmUzMjMwMzIyMjJjMjI2ODZmNzM3NDIyM2EyMjMxMzgzOTJlMzYyZTMzMzUyZTMyMzAzMjIyN2QiLCJpc3N1ZWRBdCI6MTYwODE0NjAyNzIzNCwibG9jYWxlIjoiZW4iLCJjbGllbnRfaWQiOiJ1bmtub3duIiwidGltZW91dCI6MzYwMCwidXNlcm5hbWUiOiJjbGllbnQwMSJ9.zEfN_lP00Hgtp5ojWtMuIiqinxxnKs9VZY28tEPQskGUbYdIb9GXH33sjPYxrD-v9BRocDuDZoi7M6uMleGefQ",
+    }
+    ```
+
+    ```tab="Output attributes"
+    •	" status " – Response that returns service status;
+    •	“code” - Response with the return code;
+    •	" message " – Response that displays the return code message;
+    “payload” – Response which presents: título, contente, version, totalLike, totalUnlike, liked, unliked, userCreated, lastPublicationDate, userUpdated, attachments
+    Example of a valid webservice response
+    {
+        "status": "SUCCESS",
+        "code": "200",
+        "message": "Request processed successfully",
+        "payload": {
+            "title": "Applications instalation",
+            "content": "<p>Applications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalationApplications instalation</p>\n",
+            "version": "1.0",
+            "totalLike": 1,
+            "totalUnlike": 0,
+            "liked": false,
+            "unliked": false,
+            "userCreated": "Consultant",
+            "lastPublicationDate": "2020-04-01 06:22:14 AM BRT",
+            "userUpdated": "Vinny Gravito",
+            "attachments": [
+                {
+                    "id": 606,
+                    "name": "App instalation.pdf",
+                    "extension": "pdf"
+                }
+            ]
+        }
+    }
     
 
-<hr>
+### Attachments download
 
-<font  Size=2><b>Atualização:</b>09/16/2018 </font>
+    !!! example "Delet tickets attachments"
+        ```tab="URL"
+        /webmvc/v1/knowledgebase/{knowledgeBaseId}/attachments/{documentId}
+        Type of method: Get
+        Technical documentation: Link of swagger: /webmvc/swagger-ui.html#/Knowledge%20Base/downloadAttachmentsUsingGET
+        The presented webservice allows to download attachments listed in a knowledge.
+        Possible return codes:
+	        200 Success
+	        401 Invalid authentication
+	        404 Ticket not found
+        ```
+
+        ```tab="Input attributes"
+        •	authentication-token: Mandatory attribute that receives the login authentication code
+        •	knowledgeBaseId: Attribute that receives the ticket number
+        Example of webservice entry
+            {
+	        " authentication-token: ": " eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2MDgxNDk2MjcsIm5hbWUiOiJDbGllbnRPbmUiLCJjb250cm9sIjoiN2IyMjY5NzAyMjNhMjIzMTM4MzkyZTM2MmUzMzM1MmUzMjMwMzIyMjJjMjI2ODZmNzM3NDIyM2EyMjMxMzgzOTJlMzYyZTMzMzUyZTMyMzAzMjIyN2QiLCJpc3N1ZWRBdCI6MTYwODE0NjAyNzIzNCwibG9jYWxlIjoiZW4iLCJjbGllbnRfaWQiOiJ1bmtub3duIiwidGltZW91dCI6MzYwMCwidXNlcm5hbWUiOiJjbGllbnQwMSJ9.zEfN_lP00Hgtp5ojWtMuIiqinxxnKs9VZY28tEPQskGUbYdIb9GXH33sjPYxrD-v9BRocDuDZoi7M6uMleGefQ",
+            }
+        ```
+
+### Sending likes and Dislikes
+
+    !!! example "Delet tickets attachments"
+        ```tab="URL"
+        /webmvc/v1/knowledgebase/{knowledgeBaseId}/vote/{type}
+        Type of method: Post
+        Technical documentation: Link of swagger: /webmvc/swagger-ui.html#/Knowledge Base/voteUsingPOST
+        The presented webservice allows to like and dislike a content of the knowledge portal
+        Possible return codes:
+	        200 Success
+	        401 Invalid authentication
+	        404 Ticket not found
+        ```
+
+        ```tab="Input attributes"
+        •	authentication-token: Mandatory attribute that receives the login authentication code
+        •	knowledgeBaseId: Attribute that receives the ticket number
+        •	type: Attribute that receives the type of vote
+        Example of webservice input
+            {
+	        " authentication-token: ": " eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2MDgxNDk2MjcsIm5hbWUiOiJDbGllbnRPbmUiLCJjb250cm9sIjoiN2IyMjY5NzAyMjNhMjIzMTM4MzkyZTM2MmUzMzM1MmUzMjMwMzIyMjJjMjI2ODZmNzM3NDIyM2EyMjMxMzgzOTJlMzYyZTMzMzUyZTMyMzAzMjIyN2QiLCJpc3N1ZWRBdCI6MTYwODE0NjAyNzIzNCwibG9jYWxlIjoiZW4iLCJjbGllbnRfaWQiOiJ1bmtub3duIiwidGltZW91dCI6MzYwMCwidXNlcm5hbWUiOiJjbGllbnQwMSJ9.zEfN_lP00Hgtp5ojWtMuIiqinxxnKs9VZY28tEPQskGUbYdIb9GXH33sjPYxrD-v9BRocDuDZoi7M6uMleGefQ",
+            }
+        ``` 
 	
 
 
