@@ -68,10 +68,6 @@ This section is intended to describe the communication structure REST, establish
 	Accept = application/json;
 	Content-Type = application/json
 	Authorization: Bearer${númerodotokendesessaodousuario}
-	```	
-	
-	```tab="Parameter"
-	sessionID – represents user authentication token
 	```		
 	
 	```tab="Possible return codes"
