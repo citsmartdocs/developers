@@ -122,7 +122,7 @@ Figura 9 - Exemplo de execução de fluxos ESI
 
 <hr>
 <font  Size=2><b>Produto/Versão:</b> CITSmart | 8.00</font> &nbsp; &nbsp;
-<font  Size=2><b>Atualização:</b>07/01/2019 - João Pelles Junior</font>
+<font  Size=2><b>Atualização:</b>07/01/2021 - João Pelles Junior</font>
 	
 
 
